@@ -30,7 +30,7 @@ if (window.ethereum) {
     <div id="root" class="antialiased bg-white dark:bg-darkShade ">
       <div
         class="flex flex-col flex-1 min-h-screen mx-auto justify-center text-gray-700 dark:text-white overflow-hidden">
-        <div class="fixed top-0 right-0 left-0  z-90">
+        <div class="fixed top-0 right-0 left-0  z-90 bg-white dark:bg-darkShade">
           <div class="max-w-screen-xl mx-auto">
             <Header />
           </div>

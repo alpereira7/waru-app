@@ -16,7 +16,7 @@ const routes = [
 </script>
 
 <template>
-    <header class="max-w-screen-xl mx-auto w-full flex justify-between h-14 py-9 xl:px-0 px-3 items-center">
+    <header class="max-w-screen-xl mx-auto w-full flex justify-between h-10 py-7 xl:px-0 px-3 items-center">
         <router-link to="/">
             <div class="ss:hidden xs:flex flex-none">
                 <img alt="OpenSwap" :src="WaruLogo" class="ss:h-6 xs:h-10" />
