@@ -216,7 +216,8 @@ export const useWalletStore = defineStore('wallet', {
                 return false
             }
             const contract = new ethers.Contract(network.yoichiNft, abi, signer);
-            const tx = await contract.mint(user, BigNumber.from(1)).catch((err: any) => {
+            const overrides = { value: this.cost.toString() }
+            const tx = await contract.mint(user, BigNumber.from(1), overrides).catch((err: any) => {
                 let message;
                 if (!err.data?.message) {
                     message = err.message
