@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar-thumb {
+  background-color: #B9FABD;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: black;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #B9FABD black;
+}
+.popper {
+  max-width: 280px !important;
+}
+.dark .popper {
+  --popper-theme-background-color: #262334;
+  --popper-theme-background-color-hover: #262334;
+  --popper-theme-text-color: white;
+  --popper-theme-border-width: 0px;
+  --popper-theme-border-radius: 6px;
+  --popper-theme-padding: 16px;
+  --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
+}
+
+.light .popper {
+  --popper-theme-background-color: #262334;
+  --popper-theme-background-color-hover: #262334;
+  --popper-theme-text-color: rgb(55 65 81 / var(--tw-text-opacity));
+  --popper-theme-border-width: 0px;
+  --popper-theme-border-radius: 6px;
+  --popper-theme-padding: 16px;
+  --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
+}
