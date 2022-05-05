@@ -40,11 +40,16 @@ const team = [
 
 <template>
     <div class="flex flex-1 flex-col justify-between items-center pt-0 lg:pt-20 lg:px-20 max-w-screen-xl mx-auto">
-        <div class="flex flex-1 flex-col mainCard">
-            <div class="flex flex-none justify-center">
+        <div class="flex flex-1 flex-col ">
+            <div class="flex flex-none justify-center flex-col items-center text-center">
                 <span class="lg:text-7xl text-4xl">Waru Protocol</span>
+                <p class="mt-8 text-lg font-semibold">
+                    Waru Protocol is a token based protocol dedicated to governance and DEFI, our goal is to achieve
+                    progressive decentralization and automation while creating multi-chain strategies that incentive and
+                    reward our holders.
+                </p>
             </div>
-            <div class="flex flex-1 flex-col lg:flex-row lg:space-x-8">
+            <div class="flex flex-1 flex-col lg:flex-row lg:space-x-8 mt-8">
                 <div class="flex flex-1 flex-col  items-center ">
                     <img class="object-cover" :src="WaruLogo" />
                     <span class="font-bold">WARU Token</span>
@@ -113,10 +118,11 @@ const team = [
                 <span class="lg:text-7xl text-4xl">WARU</span>
             </div>
             <div class="flex flex-none mt-12 text-center">
-                <span class="text-xl">WARU is a governance token that stores value. It’s one of the ways to participate
-                    in the WTC
-                    rewards and it’s our governance token. It has a 0.2% fee strategically design. Backed by $FRAX $UST
-                    $ONE and other assets on WTR.</span>
+                <span class="text-xl">$WARU is our token for governance, it stores value through our fee mechanism and
+                    makes *holders/stakers elegible to receive extra incentives through #WTC. It will be fairly
+                    distributed with no whitelists or pre-sales with the idea of achieving progressive community
+                    ownership and decentralization.
+                    Has a 0.2% fee strategically design, backed by $FRAX $UST on #WTR</span>
             </div>
         </div>
         <div class="flex flex-1 flex-col mt-16">
@@ -129,14 +135,12 @@ const team = [
                 <span class="lg:text-7xl text-4xl">WUBI</span>
             </div>
             <div class="flex flex-none flex-col mt-12 text-center space-y-4 text-xl">
-                <p>The 2100 W-UBI NFT Collection is a unique edition from Waru Protocol that allow
-                    holders to receive rewards produced with WTC strategies. We will have 10 collections of 210 NFTs per
-                    artist making a more special and diversified edition.
+                <p>The 2100 W-UBI NFT Edition is a unique edition from Waru Protocol, it will give holders a passive
+                    income (30% total generated) through our WTC strategies, this rewards are paid in yield tokens. We
+                    are making this edition with 10 collections, 10 artists per collection and 210 NFTs per artist to
+                    make the edition more unique. We are launching our initial colletion with @Yoichi has an artist to
+                    make the initial 210 W-UBI WARrior’s
                 </p>
-                <p>
-                    We are launching our initial colletion with @Yoichi_NFT to make the initial:
-                </p>
-                <p class="text-waruGreen-accent">210 W-UBI WARrior</p>
 
             </div>
         </div>
@@ -145,18 +149,7 @@ const team = [
                 <img :src="NFT" class="rounded-xl">
             </div>
         </div>
-        <div class="flex flex-1 flex-col mt-12">
-            <div class="flex flex-none flex-col mt-12 text-center space-y-4 text-xl">
-                <p>The 2100 W-UBI NFT Collection is a unique edition from Waru Protocol , it will give holders a passive
-                    income trough our WTC strategies.
-                </p>
-                <p>
-                    We will create 10 collections of 210 NFTs per artist having multiple artists to participate in. We
-                    are launching our initial colletion with @Yoichi_NFT has an artist to make the initial 210 W-UBI
-                    WARrior’s
-                </p>
-            </div>
-        </div>
+
         <div class="flex flex-1 flex-col mt-16">
             <div class="flex flex-none justify-center">
                 <img :src="Rarity" class="rounded-xl">
@@ -169,16 +162,16 @@ const team = [
         </div>
         <div class="flex flex-1 flex-col mt-12">
             <div class="flex flex-none flex-col mt-12 text-center space-y-4 text-xl">
-                <p>The Zap-locker (creates lp) with $WARU tokens and other asset like $FRAX and $UST for the W. Treasury
-                    Reserve.
+                <p>The Zap-locker (creates lp) with $WARU tokens and other assets like $FRAX and $UST for the W.
+                    Treasury Reserve.
+                    This is one of the automated smart contracts that Waru will implement with customizable asset
+                    changing ($FRAX;$UST;$ETH;$LUNA etc.), it will essentially, collect the swap fees
                 </p>
                 <p>
-                    This treasury will accumulate $WARU LP overtime until all the Mining rewards Allocation is depleted
-                    (12600000 $WARUs)
-                </p>
-                <p>
-                    When this happens the LP will be split, all the $WARUs will be sent to incentivize Mining Liquidity
-                    again while the other asssets will be sent to WTC and initiate several Cycles.
+                    (99% of the 0.1%) from any swap and automatically create LP with $WARU-FRAX and send it to a
+                    multisig reserve (#WTR).
+                    This removes circulation supply while growing a liquidity that rises the floor price. Until this
+                    contract and integration is fully developed we will do it manually each 30 days
                 </p>
             </div>
         </div>
@@ -189,15 +182,16 @@ const team = [
         </div>
         <div class="flex flex-1 flex-col mt-12">
             <div class="flex flex-none flex-col mt-12 text-center space-y-4 text-xl">
-                <p>The W. Treasury Cycle is a strategic yielding novel designed to generate value through governance and
+                <p>The W. Treasury Cycle is a strategic yielding novel designed to generate value trough governance and
                     reward distribution.
                 </p>
                 <p>
-                    W-UBI Holders or/and Stakers of +10k $WARU will receive 30% rewards from W. Treasury Cycles.
+                    * #WUBI Holders or/and Stakers of +10k $WARU will receive 30% rewards from W. Treasury Cycles. New
+                    cycles and proposals can be made if there is enough fees on the #WTC, opening the possibility for
+                    multiple cycles to be created if enough demand on volume is generated.
                 </p>
                 <p>
-                    New cycles and proposals can be made if there is enough fees on the WTC, opening the possibility for
-                    multiple cycles to be created if enough demand on volume is generated.
+                    MINT: 100$ to start or compound
                 </p>
             </div>
         </div>
@@ -208,10 +202,17 @@ const team = [
         </div>
         <div class="flex flex-1 flex-col mt-12">
             <div class="flex flex-none flex-col mt-12 text-center space-y-4 text-xl">
-                <p>The W. Treasury Reserve is where the Lp that comes from the Zap-locker is kept. This Liquidity is
-                    built while removing supply from circulation and create a backing for the value of $WARU token. Once
-                    Mining rewads are depleted, this Lp will be split and $WARU will be sent to a new Mining rewards
-                    incentive while other assets will be sent to WTC.
+                <p>W. Treasury Reserve will work as a buffer for the $WARU token and help with value backing and
+                    inflation. We believe that through fee locking buybacks and redistribution we don’t hold any user
+                    with locked rewards and we can potentially offset a big part of inflation. This doesn’t mean that we
+                    will not have deflationary aspects, beginning with Openswap.one being our power house that has
+                    deflationary tokenomics.
+                </p>
+                <p>
+                    #WTR will be kept as treasury until full depletion on mining rewards ( aprox 3 years, 1095 days). At
+                    the end we will break the Lp and send the $WARU tokens accumulated again for the mining reward
+                    distribution. All the other pairs will be used to create WTC cycles that will increase massively
+                    after that day.
                 </p>
             </div>
         </div>
@@ -229,9 +230,4 @@ const team = [
 </template>
 
 <style>
-@media only screen and (min-width: 1026px) {
-    .mainCard {
-        min-height: 100vw;
-    }
-}
 </style>
