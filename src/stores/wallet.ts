@@ -15,6 +15,7 @@ interface walletStore {
     idsBalance: string[];
     cost: string;
     minting: boolean;
+    networkSupported: boolean;
     nfts: any[]
 }
 
@@ -28,6 +29,7 @@ export const useWalletStore = defineStore('wallet', {
         cost: '0',
         idsBalance: [],
         minting: false,
+        networkSupported: true,
         nfts: []
     } as walletStore),
     getters: {
@@ -40,32 +42,22 @@ export const useWalletStore = defineStore('wallet', {
             const signer = await provider.getSigner();
             const { chainId } = await provider.getNetwork()
             const chainAccepted = chainId
-            if (!chainAccepted) {
-                toastMe('error', {
-                    title: 'Wallet:',
-                    msg: "We don't support the network you are connected to.",
+            const accounts = await signer.getAddress();
+            const globalStore = useGlobalStore()
+            if (globalStore.networkId !== chainAccepted || this.userAddress !== accounts || globalStore.typeWallet !== typeWallet) {
+                globalStore.autoConnect = true;
+                globalStore.changeChainId(chainAccepted)
+                globalStore.changeTypeWallet(typeWallet)
+                globalStore.changeAutoConnect(true)
+                this.loadInfo(accounts)
+                toastMe('success', {
+                    title: 'Wallet',
+                    msg: `Succesfully connected to: ` + accounts,
                     link: false,
                 })
-                this.disconnect()
-                return false
-            } else {
-                const accounts = await signer.getAddress();
-                const globalStore = useGlobalStore()
-                if (globalStore.networkId !== chainAccepted || this.userAddress !== accounts || globalStore.typeWallet !== typeWallet) {
-                    globalStore.autoConnect = true;
-                    globalStore.changeChainId(chainAccepted)
-                    globalStore.changeTypeWallet(typeWallet)
-                    globalStore.changeAutoConnect(true)
-                    this.loadInfo(accounts)
-                    toastMe('success', {
-                        title: 'Wallet :',
-                        msg: `Succesfully connected to : ` + accounts,
-                        link: false,
-                    })
-                    this.provider = provider
-                    this.userAddress = accounts
-                    this.isSigned = true;
-                }
+                this.provider = provider
+                this.userAddress = accounts
+                this.isSigned = true;
 
                 return true
             }
@@ -74,6 +66,7 @@ export const useWalletStore = defineStore('wallet', {
             const globalStore = useGlobalStore()
             globalStore.changeChainId(1666600000)
             globalStore.changeAutoConnect(false)
+            this.networkSupported = true
             this.provider = null
             this.userAddress = ''
             this.isSigned = false;
@@ -110,7 +103,7 @@ export const useWalletStore = defineStore('wallet', {
             }
             else if (window.ethereum == undefined) {
                 toastMe('warning', {
-                    title: 'Wallet :',
+                    title: 'Wallet',
                     msg: "It seems you don't have Metamask installed! try switching Wallet Mode",
                     link: false,
                 })
@@ -149,8 +142,10 @@ export const useWalletStore = defineStore('wallet', {
             const globalStore = useGlobalStore()
             const network = returnNetwork(globalStore.networkId)
             if (!network) {
+                this.networkSupported = false
                 return false
             }
+            this.networkSupported = true
             let CALL = [];
             CALL.push({
                 target: network.yoichiNft,
@@ -225,7 +220,7 @@ export const useWalletStore = defineStore('wallet', {
                     message = err.data.message
                 }
                 toastMe('error', {
-                    title: 'Error :',
+                    title: 'Error',
                     msg: message,
                     link: false
                 })
@@ -243,7 +238,7 @@ export const useWalletStore = defineStore('wallet', {
                 await tx.wait(1)
                 toastMe('success', {
                     title: 'Tx Successful',
-                    msg: "Explore : " + transaction,
+                    msg: "Explore: " + transaction,
                     link: true,
                     href: `${explorer}${transaction}`
                 })

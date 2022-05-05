@@ -1,23 +1,23 @@
 $vt-namespace: 'Vue-Toastification' !default;
 $vt-toast-min-width: 150px !default;
-$vt-toast-max-width: 500px !default;
+$vt-toast-max-width: 400px !default;
 $vt-toast-background: #ffffff !default;
 
 $vt-toast-min-height: 0px !default;
 $vt-toast-max-height: 300px !default;
 
-$vt-color-default: #109dbb !default;
+$vt-color-default: lightblue !default;
 $vt-text-color-default: rgba(243, 244, 246, 1) !default;
-$vt-color-info: #109dbb !default;
+$vt-color-info: lightblue !default;
 $vt-text-color-info: rgba(243, 244, 246, 1) !default;
 $vt-color-success: #0db16a !default;
 $vt-text-color-success: rgba(243, 244, 246, 1) !default;
-$vt-color-warning: #F59E0B !default;
+$vt-color-warning: yellow !default;
 $vt-text-color-warning: rgba(243, 244, 246, 1) !default;
-$vt-color-error: #F87171 !default;
+$vt-color-error: orange !default;
 $vt-text-color-error: rgba(243, 244, 246, 1) !default;
 
-$vt-color-progress-default: linear-gradient(to right, #0db16a, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55) !default;
+$vt-color-progress-default: linear-gradient(to right, #0db16a, lightblue, lightblue, lightblue, lightblue, orange) !default;
 
 $vt-mobile: "only screen and (max-width : 500px)" !default;
 $vt-not-mobile: "only screen and (min-width : 500px)" !default;
@@ -60,7 +60,6 @@ $vt-z-index: 9999 !default;
 
   .Vue-Toastification__toast {
     width: 100vw !important;
-    @apply p-3 flex
   }
 }
 
@@ -69,7 +68,7 @@ $vt-z-index: 9999 !default;
 }
 
 .Vue-Toastification__icon {
-  @apply m-0 text-gray-500;
+  @apply m-0 text-waruGreen-primary;
 }
 
 .Vue-Toastification__close-button {

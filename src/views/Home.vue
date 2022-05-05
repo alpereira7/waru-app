@@ -217,7 +217,8 @@ const team = [
         </div>
         <div class="flex flex-1 flex-col mt-12 space-y-4 justify-center items-center">
             <div class="flex flex-none flex-col mt-12 text-center space-y-4 text-2xl">
-                <p>Launch on <a href="https://app.openswap.one/" class="text-waruGreen-accent">OpenSwap.one</a> soon!
+                <p>Launch on <a href="https://app.openswap.one/"
+                        class="text-waruGreen-accent font-semibold">OpenSwap.one</a> soon!
                 </p>
             </div>
             <div class="h-1 border-t border-gray-300 w-2/3">
@@ -228,7 +229,9 @@ const team = [
 </template>
 
 <style>
-.mainCard {
-    min-height: 90vh;
+@media only screen and (min-width: 1026px) {
+    .mainCard {
+        min-height: 100vw;
+    }
 }
 </style>

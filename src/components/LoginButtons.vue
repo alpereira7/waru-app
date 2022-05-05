@@ -25,11 +25,11 @@ const { isSigned, userAddress } = storeToRefs(useWalletStore())
                 <img class="w-7 h-7 mr-2" :src="Metamask">
                 <span class="text-base">MetaMask</span>
             </button>
-            <button type="button" @click="walletStore.connectWalletConnect()"
+            <!-- <button type="button" @click="walletStore.connectWalletConnect()"
                 class=" bg-walletconnect text-white bg-opacity-80 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium  hover:bg-opacity-90 focus:outline-none ">
                 <img class="w-7 h-7 mr-2" :src="WalletConnect">
                 <span class="text-base">WalletConnect</span>
-            </button>
+            </button> -->
         </template>
     </div>
 </template>

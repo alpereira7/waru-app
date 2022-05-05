@@ -1,14 +1,14 @@
 import { Networks } from "./networks.interface";
 
 export const harmonyNetworks: Networks[] = [
-    {
-        chainId: 1666600000,
-        rpcURL: 'https://api.harmony.one',
-        explorer: 'https://explorer.harmony.one/',
-        name: 'Harmony Mainnet',
-        yoichiNft: '0xe6dd98403ec2661a4bb1fb73b64e7df9bd9b1045',
-        multicall: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
-    },
+    // {
+    //     chainId: 1666600000,
+    //     rpcURL: 'https://api.harmony.one',
+    //     explorer: 'https://explorer.harmony.one/',
+    //     name: 'Harmony Mainnet',
+    //     yoichiNft: '0xe6dd98403ec2661a4bb1fb73b64e7df9bd9b1045',
+    //     multicall: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+    // },
     {
         chainId: 1666700000,
         rpcURL: 'https://api.s0.b.hmny.io',
