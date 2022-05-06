@@ -17,9 +17,4 @@ declare module "vue3-popper" {
 declare module '@makerdao/multicall';
 interface Window {
   ethereum?: any;
-  global?: any;
-  web3?: any;
-}
-declare global {
-
 }

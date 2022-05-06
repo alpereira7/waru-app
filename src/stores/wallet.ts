@@ -1,8 +1,7 @@
 import { toastMe } from '@/utility/functions';
-import { BigNumber, ethers, utils } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { defineStore } from 'pinia'
 import { useGlobalStore } from './global';
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import { harmonyNetworks, returnNetwork } from '@/utility/harmony';
 import WaruNFT from '@/assets/WaruNFT.json'
 import { createWatcher } from '@makerdao/multicall'
@@ -36,7 +35,7 @@ export const useWalletStore = defineStore('wallet', {
 
     },
     actions: {
-        async setupWallet(sourceProvider: any, typeWallet: 'metamask' | 'walletconnect') {
+        async setupWallet(sourceProvider: any, typeWallet: 'metamask') {
             const provider = new ethers.providers.Web3Provider(sourceProvider);
             await provider.send("eth_requestAccounts", []);
             const signer = await provider.getSigner();
@@ -77,26 +76,23 @@ export const useWalletStore = defineStore('wallet', {
         async connectAnyWallet() {
             const globalStore = useGlobalStore()
             switch (globalStore.typeWallet) {
-                case 'walletconnect':
-                    this.connectWalletConnect()
-                    break;
                 default:
                     this.connect()
                     break;
             }
         },
-        async connectWalletConnect() {
-            const networks = harmonyNetworks
-            let rpcsWalletConnect: any = {}
-            const rpc = networks.map((network) => {
-                rpcsWalletConnect[network.chainId] = network.rpcURL
-            })
-            const provider = new WalletConnectProvider({
-                rpc: rpcsWalletConnect,
-            });
-            await provider.enable();
-            this.setupWallet(provider, 'walletconnect')
-        },
+        // async connectWalletConnect() {
+        //     const networks = harmonyNetworks
+        //     let rpcsWalletConnect: any = {}
+        //     const rpc = networks.map((network) => {
+        //         rpcsWalletConnect[network.chainId] = network.rpcURL
+        //     })
+        //     const provider = new WalletConnectProvider({
+        //         rpc: rpcsWalletConnect,
+        //     });
+        //     await provider.enable();
+        //     this.setupWallet(provider, 'walletconnect')
+        // },
         async connect() {
             if (window.ethereum !== undefined) {
                 return await this.setupWallet(window.ethereum, 'metamask')

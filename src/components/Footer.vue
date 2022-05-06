@@ -7,7 +7,7 @@ const linktreeUrl = 'http://linktr.ee/WaruProtocol'
 
 
 <template>
-    <div class="flex p-3 py-8 xl:px-0 px-3 flex-1 relative w-full justify-end">
+    <div class="flex p-3 py-8 xl:px-0 px-3 flex-none relative ">
         <div class="flex flex-none flex-col space-y-2">
             <a :href="linktreeUrl" target="_blank"
                 class="relative h-8 flex items-center rounded-full p-1 duration-300 cursor-pointer">

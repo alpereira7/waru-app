@@ -38,7 +38,7 @@ if (window.ethereum) {
         <div class="flex flex-1 lg:py-20 mx-3 lg:mx-0 mt-14 lg:mt-0 min-h-full">
           <router-view />
         </div>
-        <div class="fixed bottom-0 inset-x-0 w-full max-w-screen-xl mx-auto">
+        <div class="fixed bottom-0 max-w-screen-xl right-4 ">
           <Footer />
         </div>
       </div>

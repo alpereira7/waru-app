@@ -14,9 +14,6 @@ export default defineConfig({
           buffer: true,
         }),
       ],
-      define: {
-        global: 'globalThis',
-      },
     },
   },
   plugins: [
