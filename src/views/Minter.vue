@@ -28,7 +28,7 @@ globalStore.$onAction(
 <template>
     <div
         class="flex flex-1 lg:flex-row flex-col justify-between items-center pt-0 lg:pt-20 lg:px-20 max-w-screen-xl mx-auto">
-        <div class="flex flex-1 justify-center items-center lg:w-full lg:h-full w-2/3 h-2/3 lg:mt-0 mt-8">
+        <div class="flex flex-1 justify-center items-center lg:w-full lg:h-full w-2/3 h-2/3 lg:mt-0 mt-8 p-12">
             <img class=" w-full h-full object-cover" :src="WaruLogo" />
         </div>
         <div class="flex flex-1 flex-col h-full lg:items-start items-center ">

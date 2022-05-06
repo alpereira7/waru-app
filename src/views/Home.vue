@@ -7,31 +7,36 @@ import Cycle from '@/assets/cycle.jpg'
 import NFT from '@/assets/nft.jpg'
 import WTR from '@/assets/wtr.jpg'
 import Address from '@/components/Address.vue';
+
+import Bio from '@/assets/bio.png'
+import Abr from '@/assets/abraham.png'
+import Tracker from '@/assets/tracker.png'
+import Alex from '@/assets/alex.png'
 const team = [
     {
         name: 'Biosensei',
         role: 'DAO & DEFI Researcher',
         description: 'Creates vision and strategy',
-        imageUrl: 'src/assets/bio.png',
+        imageUrl: Bio,
     },
     {
         name: 'Abraham',
         role: 'Community Guardian',
         description: 'Leader of our community',
-        imageUrl: 'src/assets/abraham.png',
+        imageUrl: Abr,
     },
     {
         name: 'Tr4ck3r',
         role: 'Blockchain Developer',
         description: 'Development of Smart Contracts',
-        imageUrl: 'src/assets/tracker.png',
+        imageUrl: Tracker,
     },
     {
         name: 'Alex',
         role: 'Blockchain Developer',
         description: 'WARU Token developer & Openswap.one developer',
         subDesc: 'Contributor for token Design',
-        imageUrl: 'src/assets/alex.png',
+        imageUrl: Alex,
     },
 ]
 </script>
