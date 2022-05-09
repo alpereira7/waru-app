@@ -65,7 +65,8 @@ const team = [
                             Our Vision
                         </span>
                         <span class="text-lg">
-                            Our vision is to bring new forms of value trough Multi-chain strategies and participation in
+                            Our vision is to bring new forms of value through Multi-chain strategies and participation
+                            in
                             governance.
                             Rewarding holders and stakers in a simple maner while we keep a fair distribution of
                             ownership,
@@ -78,9 +79,11 @@ const team = [
                         </span>
                         <span class="text-lg">
                             WARU Contract Address: Coming Soon<br>
-                            WUBI NFT Contract<br>
+                            WUBI NFT Edition<br>
                             <p class="indent-4">
-                                - WUBI NFT 210 Warrior’s: Coming Soon
+                                - #WUBI NFT 210 Warrior’s:
+                                <Address class="text-waruGreen-accent"
+                                    address="0xeA380Be04a398d93030E4Bff15cBC87f6B35b5ae" :copy="true" />
                             </p>
                             WTC Multisig Adress:
                             <Address class="text-waruGreen-accent" address="0xC4ae728aC2a0f263A44A992Fd2B97798bE4342F0"
@@ -168,15 +171,14 @@ const team = [
         <div class="flex flex-1 flex-col mt-12">
             <div class="flex flex-none flex-col mt-12 text-center space-y-4 text-xl">
                 <p>The Zap-locker (creates lp) with $WARU tokens and other assets like $FRAX and $UST for the W.
-                    Treasury Reserve.
-                    This is one of the automated smart contracts that Waru will implement with customizable asset
-                    changing ($FRAX;$UST;$ETH;$LUNA etc.), it will essentially, collect the swap fees
+                    Treasury Reserve. This is one of the automated smart contracts that Waru will implement with
+                    customizable asset changing ($FRAX;$UST;$ETH;$LUNA etc.), it will essentially, collect the swap fees
                 </p>
                 <p>
                     (99% of the 0.1%) from any swap and automatically create LP with $WARU-FRAX and send it to a
-                    multisig reserve (#WTR).
-                    This removes circulation supply while growing a liquidity that rises the floor price. Until this
-                    contract and integration is fully developed we will do it manually each 30 days
+                    multisig reserve (#WTR). This removes circulation supply while growing a liquidity that rises the
+                    floor price. Until this contract and integration is fully developed the protocol will do it each 30
+                    days
                 </p>
             </div>
         </div>
@@ -196,7 +198,7 @@ const team = [
                     multiple cycles to be created if enough demand on volume is generated.
                 </p>
                 <p>
-                    MINT: 100$ to start or compound
+                    100$ in fees to start a cycle or compound one that exists.
                 </p>
             </div>
         </div>
