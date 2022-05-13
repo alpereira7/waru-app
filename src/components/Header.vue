@@ -11,6 +11,11 @@ const routes = [
         name: 'My Nfts',
         url: '/my-nfts'
     },
+    {
+        icon: 'las la-road',
+        name: 'Roadmap',
+        url: '/roadmap'
+    },
 ]
 
 </script>
