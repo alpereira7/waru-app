@@ -129,8 +129,8 @@ const team = [
                 <span class="text-xl">$WARU is our token for governance, it stores value through our fee mechanism and
                     makes *holders/stakers elegible to receive extra incentives through #WTC. It will be fairly
                     distributed with no whitelists or pre-sales with the idea of achieving progressive community
-                    ownership and decentralization.
-                    Has a 0.2% fee strategically design, backed by $FRAX $UST on #WTR</span>
+                    ownership and decentralization. Has a 0.2% fee strategically design, backed by mix of stables and
+                    other assets on #WTR</span>
             </div>
         </div>
         <div class="flex flex-1 flex-col mt-16">
