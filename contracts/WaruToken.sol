@@ -30,7 +30,7 @@ contract WaruToken is Ownable, ERC20Snapshot {
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
         require(amount%1000 == 0, "You can only send a multiple of 1000 wei.");
         require(balanceOf(msg.sender) >= amount);
-        address owner = _msgSender();
+        address owner = msg.sender;
         _transfer(owner, wtrAddress, amount/1000);
         _transfer(owner, wtcAddress, amount/1000);
         _transfer(owner, to, amount-amount/500);
@@ -40,11 +40,11 @@ contract WaruToken is Ownable, ERC20Snapshot {
     // Only Owner
     function transferNoFees(address to, uint256 amount) public onlyOwner callerIsUser {
         require(balanceOf(msg.sender) >= amount);
-        address owner = _msgSender();
+        address owner = msg.sender;
         _transfer(owner, to, amount);
     }
 
-    function mint(address to, uint256 amount) public onlyOwner callerIsUser {
+    function mint(address to, uint256 amount) public onlyOwner {
         require(totalSupply() + amount <= 21000000000000000000000000, "Can't mint more than 21 million tokens");
         _mint(to, amount);
     }
