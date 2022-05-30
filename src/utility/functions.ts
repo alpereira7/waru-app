@@ -3,6 +3,8 @@ import Toaster from '@/components/Toaster.vue'
 import { ToasterOptions } from "./toaster.interface";
 import { useToast } from "vue-toastification";
 import numeral from "numeral";
+import { harmonyNetworks } from '@/utility/harmony';
+import WalletConnectProvider from "@walletconnect/web3-provider";
 
 export function returnAmounts(value: any) {
     return numeral(value).format('0[.]0')
@@ -36,3 +38,22 @@ export function toastMe(type: keyof ToasterOptions, props: any) {
     }
 }
 
+export async function returnProvider(walletMode: string) {
+    let sourceProvider: any;
+    switch (walletMode) {
+        case 'walletconnect':
+            const networks = harmonyNetworks
+            const sources: any = {}
+            networks.forEach((network) => { sources[network.chainId] = network.rpcURL })
+            sourceProvider = new WalletConnectProvider({
+                rpc: sources
+            })
+            await sourceProvider.enable();
+            break;
+
+        default:
+            sourceProvider = window.ethereum
+            break;
+    }
+    return sourceProvider
+}

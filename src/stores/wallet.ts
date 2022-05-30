@@ -1,4 +1,4 @@
-import { toastMe } from '@/utility/functions';
+import { returnProvider, toastMe } from '@/utility/functions';
 import { BigNumber, ethers } from 'ethers';
 import { defineStore } from 'pinia'
 import { useGlobalStore } from './global';
@@ -35,29 +35,43 @@ export const useWalletStore = defineStore('wallet', {
 
     },
     actions: {
-        async setupWallet(sourceProvider: any, typeWallet: 'metamask') {
+        async setupWallet(typeWallet: 'metamask' | 'walletconnect') {
+            const globalStore = useGlobalStore()
+            const sourceProvider = await returnProvider(typeWallet);
             const provider = new ethers.providers.Web3Provider(sourceProvider);
-            await provider.send("eth_requestAccounts", []);
+            switch (typeWallet) {
+                case 'metamask':
+                    await provider.send("eth_requestAccounts", []);
+                    break;
+            }
             const signer = await provider.getSigner();
             const { chainId } = await provider.getNetwork()
-            const chainAccepted = chainId
-            const accounts = await signer.getAddress();
-            const globalStore = useGlobalStore()
-            if (globalStore.networkId !== chainAccepted || this.userAddress !== accounts || globalStore.typeWallet !== typeWallet) {
-                globalStore.autoConnect = true;
-                globalStore.changeChainId(chainAccepted)
-                globalStore.changeTypeWallet(typeWallet)
-                globalStore.changeAutoConnect(true)
-                this.loadInfo(accounts)
-                toastMe('success', {
-                    title: 'Wallet',
-                    msg: `Succesfully connected to: ` + accounts,
+            if (!chainId) {
+                toastMe('error', {
+                    title: 'Wallet:',
+                    msg: "We don't support the network you are connected to.",
                     link: false,
                 })
-                this.provider = provider
-                this.userAddress = accounts
-                this.isSigned = true;
-
+                this.disconnect()
+                return false
+            } else {
+                const accounts = await signer.getAddress();
+                globalStore.autoConnect = true;
+                globalStore.changeTypeWallet(typeWallet)
+                if (accounts !== this.userAddress || globalStore.networkId !== chainId) {
+                    toastMe('success', {
+                        title: 'Wallet :',
+                        msg: `Succesfully connected to : ` + accounts,
+                        link: false,
+                    })
+                    if (globalStore.networkId !== chainId) {
+                        globalStore.changeChainId(chainId)
+                    }
+                    this.loadInfo(accounts)
+                    this.provider = provider
+                    this.userAddress = accounts
+                    this.isSigned = true;
+                }
                 return true
             }
         },
@@ -76,26 +90,20 @@ export const useWalletStore = defineStore('wallet', {
         async connectAnyWallet() {
             const globalStore = useGlobalStore()
             switch (globalStore.typeWallet) {
+                case 'walletconnect':
+                    this.setupWallet('walletconnect')
+                    break;
                 default:
                     this.connect()
                     break;
             }
         },
-        // async connectWalletConnect() {
-        //     const networks = harmonyNetworks
-        //     let rpcsWalletConnect: any = {}
-        //     const rpc = networks.map((network) => {
-        //         rpcsWalletConnect[network.chainId] = network.rpcURL
-        //     })
-        //     const provider = new WalletConnectProvider({
-        //         rpc: rpcsWalletConnect,
-        //     });
-        //     await provider.enable();
-        //     this.setupWallet(provider, 'walletconnect')
-        // },
+        async connectWalletConnect() {
+            return await this.setupWallet('walletconnect')
+        },
         async connect() {
             if (window.ethereum !== undefined) {
-                return await this.setupWallet(window.ethereum, 'metamask')
+                return await this.setupWallet('metamask')
             }
             else if (window.ethereum == undefined) {
                 toastMe('warning', {
@@ -199,9 +207,10 @@ export const useWalletStore = defineStore('wallet', {
             this.minting = true
             const abi = WaruNFT.abi;
             const user = this.userAddress
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
             const globalStore = useGlobalStore()
+            const sourceProvider = await returnProvider(globalStore.typeWallet);
+            const provider = new ethers.providers.Web3Provider(sourceProvider);
+            const signer = provider.getSigner();
             const network = returnNetwork(globalStore.networkId)
             if (!network) {
                 return false

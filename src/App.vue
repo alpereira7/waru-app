@@ -15,11 +15,11 @@ if (window.ethereum) {
   window.ethereum.on('chainChanged', async () => {
     const walletStore = useWalletStore()
     if (globalStore.autoConnect) {
-      walletStore.setupWallet(window.ethereum, 'metamask')
+      walletStore.setupWallet('metamask')
     }
   })
   window.ethereum.on('accountsChanged', () => {
-    window.location.reload();
+    //window.location.reload();
   });
 }
 
