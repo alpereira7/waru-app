@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -10,8 +10,11 @@ contract WaruToken is Ownable, ERC20Snapshot {
 
     using SafeMath for uint256;
 
-    address public wtrAddress = 0x9Fdcf9E4C3b9c8606803FAdA2734FABda2D24Dc8;
-    address public wtcAddress = 0x9Fdcf9E4C3b9c8606803FAdA2734FABda2D24Dc8;
+    mapping(address => bool) public authorized;
+    
+
+    address public wtrAddress = 0x672CeDBCE027E51888133312AaCaC2FF8e3614e6;
+    address public wtcAddress = 0xC4ae728aC2a0f263A44A992Fd2B97798bE4342F0;
     
     function setWtrAddress(address _wtrAddress) public onlyOwner {
         wtrAddress = _wtrAddress;
@@ -22,7 +25,8 @@ contract WaruToken is Ownable, ERC20Snapshot {
     }
 
     constructor() ERC20("Waru Token", "WARU") {
-        _mint(msg.sender, 8400000000000000000000000); // 8.4 million premint
+        authorized[msg.sender] = true;
+        _mint(msg.sender, 7350000000000000000000000); // 7.35 million premint
     }
     
     modifier callerIsUser() {
@@ -43,16 +47,25 @@ contract WaruToken is Ownable, ERC20Snapshot {
         return true;
     }
 
+    function mint(address to, uint256 amount) public {
+        require(authorized[msg.sender], "Unauthorized mint!");
+        require(amount.add(totalSupply()) <= 21000000000000000000000000, "Can't mint more than 21 million tokens");
+        require(amount > 0);
+        _mint(to, amount);
+    }
+
+    function addAuthorized(address _authorized) public onlyOwner {
+        authorized[_authorized] = true;
+    }
+    
+    function removeAuthorized(address _unauthorized) public onlyOwner {
+        authorized[_unauthorized] = false;
+    }
+
     // Only Owner
     function transferNoFees(address to, uint256 amount) public onlyOwner callerIsUser {
         require(balanceOf(msg.sender) >= amount);
         _transfer(msg.sender, to, amount);
-    }
-
-    function mint(address to, uint256 amount) public onlyOwner {
-        require(amount.add(totalSupply()) <= 21000000000000000000000000, "Can't mint more than 21 million tokens");
-        require(amount > 0);
-        _mint(to, amount);
     }
 
     function snapshot() public onlyOwner callerIsUser{
