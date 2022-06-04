@@ -12,9 +12,10 @@ contract WaruToken is Ownable, ERC20Snapshot {
 
     mapping(address => bool) public authorized;
     
-
     address public wtrAddress = 0x672CeDBCE027E51888133312AaCaC2FF8e3614e6;
     address public wtcAddress = 0xC4ae728aC2a0f263A44A992Fd2B97798bE4342F0;
+
+    event TransferDone(address indexed from, address indexed to, uint value);
     
     function setWtrAddress(address _wtrAddress) public onlyOwner {
         wtrAddress = _wtrAddress;
@@ -35,7 +36,7 @@ contract WaruToken is Ownable, ERC20Snapshot {
     }
 
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
-        require(amount.mod(1000) == 0, "You can only send a multiple of 1000 wei.");
+        require(amount >= 10000, "Insiffucient amount.");
         require(balanceOf(msg.sender) >= amount);
         uint256 fee;
         fee = amount.div(1000);
@@ -44,6 +45,7 @@ contract WaruToken is Ownable, ERC20Snapshot {
         uint256 totalFee;
         totalFee = fee.mul(2);
         _transfer(msg.sender, to, amount.sub(totalFee));
+        emit TransferDone(msg.sender, to, amount);
         return true;
     }
 
