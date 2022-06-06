@@ -36,8 +36,8 @@ contract WaruToken is Ownable, ERC20Snapshot {
     }
 
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
-        require(amount >= 10000, "Insiffucient amount.");
-        require(balanceOf(msg.sender) >= amount);
+        require(amount >= 10000, "Insufficient amount.");
+        require(balanceOf(msg.sender) >= amount, "Insufficient balance.");
         uint256 fee;
         fee = amount.div(1000);
         _transfer(msg.sender, wtrAddress, fee);
@@ -46,6 +46,21 @@ contract WaruToken is Ownable, ERC20Snapshot {
         totalFee = fee.mul(2);
         _transfer(msg.sender, to, amount.sub(totalFee));
         emit TransferDone(msg.sender, to, amount);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool) {
+        require(from == msg.sender, "Not the owner of the wallet.");
+        require(amount >= 10000, "Insufficient amount.");
+        require(balanceOf(from) >= amount, "Insufficient balance.");
+        uint256 fee;
+        fee = amount.div(1000);
+        _transfer(from, wtrAddress, fee);
+        _transfer(from, wtcAddress, fee);
+        uint256 totalFee;
+        totalFee = fee.mul(2);
+        _transfer(from, to, amount.sub(totalFee));
+        emit TransferDone(from, to, amount);
         return true;
     }
 
