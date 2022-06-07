@@ -19,11 +19,6 @@ contract WaruToken is Ownable, ERC20Snapshot {
     constructor() ERC20("Waru Token", "WARU") {
         _mint(msg.sender, INIT_SUPPLY); // 7.35 million premint
     }
-
-    function transfer(address to, uint256 amount) public virtual override returns (bool) {
-        _transfer(msg.sender, to, amount);
-        return true;
-    }
     
     function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool) {
         require(amount >= 10000, "Insufficient amount.");
