@@ -16,22 +16,17 @@ contract WaruToken is Ownable, ERC20Snapshot {
     uint256 public MAX_SUPPLY = 21000000000000000000000000;
     uint256 public INIT_SUPPLY = 7350000000000000000000000;
 
-    event TransferDone(address indexed from, address indexed to, uint value);
-
     constructor() ERC20("Waru Token", "WARU") {
         _mint(msg.sender, INIT_SUPPLY); // 7.35 million premint
     }
 
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
-        require(balanceOf(msg.sender) >= amount, "Insufficient balance.");
         _transfer(msg.sender, to, amount);
-        emit TransferDone(msg.sender, to, amount);
         return true;
     }
     
     function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool) {
         require(amount >= 10000, "Insufficient amount.");
-        require(balanceOf(from) >= amount, "Insufficient balance.");
         uint256 fee;
         fee = amount.div(1000);
         uint256 totalFee;
@@ -45,7 +40,7 @@ contract WaruToken is Ownable, ERC20Snapshot {
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
-        require(amount.add(totalSupply()) <= MAX_SUPPLY, "Can't mint more than 21 million tokens");
+        require(amount.add(totalSupply()) <= MAX_SUPPLY, "Can't mint more than 21 million tokens.");
         require(amount > 0);
         _mint(to, amount);
     }
