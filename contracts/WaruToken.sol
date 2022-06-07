@@ -56,7 +56,7 @@ contract WaruToken is Ownable, ERC20Snapshot {
         return true;
     }
 
-    function mint(address to, uint256 amount) public {
+    function mint(address to, uint256 amount) public onlyOwner {
         require(amount.add(totalSupply()) <= maxSupply, "Can't mint more than 21 million tokens");
         require(amount > 0);
         _mint(to, amount);
