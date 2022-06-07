@@ -13,25 +13,13 @@ contract WaruToken is Ownable, ERC20Snapshot {
     address public wtrAddress = 0x672CeDBCE027E51888133312AaCaC2FF8e3614e6;
     address public wtcAddress = 0xC4ae728aC2a0f263A44A992Fd2B97798bE4342F0;
 
-    uint256 public maxSupply = 21000000000000000000000000;
+    uint256 public MAX_SUPPLY = 21000000000000000000000000;
+    uint256 public INIT_SUPPLY = 7350000000000000000000000;
 
     event TransferDone(address indexed from, address indexed to, uint value);
-    
-    function setWtrAddress(address _wtrAddress) public onlyOwner {
-        wtrAddress = _wtrAddress;
-    }
-    
-    function setWtcAddress(address _wtcAddress) public onlyOwner {
-        wtcAddress = _wtcAddress;
-    }
 
     constructor() ERC20("Waru Token", "WARU") {
-        _mint(msg.sender, 7350000000000000000000000); // 7.35 million premint
-    }
-    
-    modifier callerIsUser() {
-        require(tx.origin == msg.sender, "The caller is another contract.");
-        _;
+        _mint(msg.sender, INIT_SUPPLY); // 7.35 million premint
     }
 
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
@@ -57,22 +45,31 @@ contract WaruToken is Ownable, ERC20Snapshot {
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
-        require(amount.add(totalSupply()) <= maxSupply, "Can't mint more than 21 million tokens");
+        require(amount.add(totalSupply()) <= MAX_SUPPLY, "Can't mint more than 21 million tokens");
         require(amount > 0);
         _mint(to, amount);
     }
 
-    // Only Owner
-    function transferNoFees(address to, uint256 amount) public onlyOwner callerIsUser {
-        require(balanceOf(msg.sender) >= amount);
-        _transfer(msg.sender, to, amount);
+    // Admin functions
+    
+    modifier callerIsUser() {
+        require(tx.origin == msg.sender, "The caller is another contract.");
+        _;
     }
-
-    function snapshot() public onlyOwner callerIsUser{
+    
+    function setWtrAddress(address _wtrAddress) public onlyOwner callerIsUser {
+        wtrAddress = _wtrAddress;
+    }
+    
+    function setWtcAddress(address _wtcAddress) public onlyOwner callerIsUser {
+        wtcAddress = _wtcAddress;
+    }
+    
+    function snapshot() public onlyOwner callerIsUser {
         _snapshot();
     }
     
-    function withdraw() public payable onlyOwner {
+    function withdraw() public payable onlyOwner callerIsUser {
         (bool success, ) = payable(msg.sender).call{
             value: address(this).balance
         }("");
