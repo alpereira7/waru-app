@@ -9,11 +9,11 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 contract WaruToken is Ownable, ERC20Snapshot {
 
     using SafeMath for uint256;
-
-    mapping(address => bool) public authorized;
     
     address public wtrAddress = 0x672CeDBCE027E51888133312AaCaC2FF8e3614e6;
     address public wtcAddress = 0xC4ae728aC2a0f263A44A992Fd2B97798bE4342F0;
+
+    uint256 public maxSupply = 21000000000000000000000000;
 
     event TransferDone(address indexed from, address indexed to, uint value);
     
@@ -26,7 +26,6 @@ contract WaruToken is Ownable, ERC20Snapshot {
     }
 
     constructor() ERC20("Waru Token", "WARU") {
-        authorized[msg.sender] = true;
         _mint(msg.sender, 7350000000000000000000000); // 7.35 million premint
     }
     
@@ -36,47 +35,31 @@ contract WaruToken is Ownable, ERC20Snapshot {
     }
 
     function transfer(address to, uint256 amount) public virtual override returns (bool) {
-        require(amount >= 10000, "Insufficient amount.");
         require(balanceOf(msg.sender) >= amount, "Insufficient balance.");
-        uint256 fee;
-        fee = amount.div(1000);
-        _transfer(msg.sender, wtrAddress, fee);
-        _transfer(msg.sender, wtcAddress, fee);
-        uint256 totalFee;
-        totalFee = fee.mul(2);
-        _transfer(msg.sender, to, amount.sub(totalFee));
+        _transfer(msg.sender, to, amount);
         emit TransferDone(msg.sender, to, amount);
         return true;
     }
-
+    
     function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool) {
-        require(from == msg.sender, "Not the owner of the wallet.");
         require(amount >= 10000, "Insufficient amount.");
         require(balanceOf(from) >= amount, "Insufficient balance.");
         uint256 fee;
         fee = amount.div(1000);
-        _transfer(from, wtrAddress, fee);
-        _transfer(from, wtcAddress, fee);
         uint256 totalFee;
         totalFee = fee.mul(2);
+        address spender = _msgSender();
+        _spendAllowance(from, spender, amount);
+        _transfer(from, wtrAddress, fee);
+        _transfer(from, wtcAddress, fee);
         _transfer(from, to, amount.sub(totalFee));
-        emit TransferDone(from, to, amount);
         return true;
     }
 
     function mint(address to, uint256 amount) public {
-        require(authorized[msg.sender], "Unauthorized mint!");
-        require(amount.add(totalSupply()) <= 21000000000000000000000000, "Can't mint more than 21 million tokens");
+        require(amount.add(totalSupply()) <= maxSupply, "Can't mint more than 21 million tokens");
         require(amount > 0);
         _mint(to, amount);
-    }
-
-    function addAuthorized(address _authorized) public onlyOwner {
-        authorized[_authorized] = true;
-    }
-    
-    function removeAuthorized(address _unauthorized) public onlyOwner {
-        authorized[_unauthorized] = false;
     }
 
     // Only Owner
