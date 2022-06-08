@@ -34,32 +34,27 @@ contract WaruToken is Ownable, ERC20Snapshot {
         return true;
     }
 
+    // Admin functions
+ 
     function mint(address to, uint256 amount) public onlyOwner {
         require(amount.add(totalSupply()) <= MAX_SUPPLY, "Can't mint more than 21 million tokens.");
         require(amount > 0);
         _mint(to, amount);
     }
-
-    // Admin functions
-    
-    modifier callerIsUser() {
-        require(tx.origin == msg.sender, "The caller is another contract.");
-        _;
-    }
-    
-    function setWtrAddress(address _wtrAddress) public onlyOwner callerIsUser {
+   
+    function setWtrAddress(address _wtrAddress) public onlyOwner {
         wtrAddress = _wtrAddress;
     }
     
-    function setWtcAddress(address _wtcAddress) public onlyOwner callerIsUser {
+    function setWtcAddress(address _wtcAddress) public onlyOwner {
         wtcAddress = _wtcAddress;
     }
     
-    function snapshot() public onlyOwner callerIsUser {
+    function snapshot() public onlyOwner {
         _snapshot();
     }
     
-    function withdraw() public payable onlyOwner callerIsUser {
+    function withdraw() public payable onlyOwner {
         (bool success, ) = payable(msg.sender).call{
             value: address(this).balance
         }("");
