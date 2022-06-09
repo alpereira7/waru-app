@@ -1,15 +1,47 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity 0.8.14;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract WaruToken is Ownable, ERC20Snapshot {
 
-    address public wtrAddress = 0x9Fdcf9E4C3b9c8606803FAdA2734FABda2D24Dc8;
-    address public wtcAddress = 0x9Fdcf9E4C3b9c8606803FAdA2734FABda2D24Dc8;
+    using SafeMath for uint256;
     
+    address public wtrAddress = 0x672CeDBCE027E51888133312AaCaC2FF8e3614e6;
+    address public wtcAddress = 0xC4ae728aC2a0f263A44A992Fd2B97798bE4342F0;
+
+    uint256 public MAX_SUPPLY = 21000000000000000000000000;
+    uint256 public INIT_SUPPLY = 7350000000000000000000000;
+
+    constructor() ERC20("Waru Token", "WARU") {
+        _mint(msg.sender, INIT_SUPPLY); // 7.35 million premint
+    }
+    
+    function transferFrom(address from, address to, uint256 amount) public virtual override returns (bool) {
+        require(amount >= 10000, "Insufficient amount.");
+        uint256 fee;
+        fee = amount.div(1000);
+        uint256 totalFee;
+        totalFee = fee.mul(2);
+        address spender = _msgSender();
+        _spendAllowance(from, spender, amount);
+        _transfer(from, wtrAddress, fee);
+        _transfer(from, wtcAddress, fee);
+        _transfer(from, to, amount.sub(totalFee));
+        return true;
+    }
+
+    // Admin functions
+ 
+    function mint(address to, uint256 amount) public onlyOwner {
+        require(amount.add(totalSupply()) <= MAX_SUPPLY, "Can't mint more than 21 million tokens.");
+        require(amount > 0);
+        _mint(to, amount);
+    }
+   
     function setWtrAddress(address _wtrAddress) public onlyOwner {
         wtrAddress = _wtrAddress;
     }
@@ -17,39 +49,8 @@ contract WaruToken is Ownable, ERC20Snapshot {
     function setWtcAddress(address _wtcAddress) public onlyOwner {
         wtcAddress = _wtcAddress;
     }
-
-    constructor() ERC20("Waru Token", "WARU") {
-        _mint(msg.sender, 8400000000000000000000000); // 8.4 million premint
-    }
     
-    modifier callerIsUser() {
-        require(tx.origin == msg.sender, "The caller is another contract.");
-        _;
-    }
-
-    function transfer(address to, uint256 amount) public virtual override returns (bool) {
-        require(amount%1000 == 0, "You can only send a multiple of 1000 wei.");
-        require(balanceOf(msg.sender) >= amount);
-        address owner = _msgSender();
-        _transfer(owner, wtrAddress, amount/1000);
-        _transfer(owner, wtcAddress, amount/1000);
-        _transfer(owner, to, amount-amount/500);
-        return true;
-    }
-
-    // Only Owner
-    function transferNoFees(address to, uint256 amount) public onlyOwner callerIsUser {
-        require(balanceOf(msg.sender) >= amount);
-        address owner = _msgSender();
-        _transfer(owner, to, amount);
-    }
-
-    function mint(address to, uint256 amount) public onlyOwner callerIsUser {
-        require(totalSupply() + amount <= 21000000000000000000000000, "Can't mint more than 21 million tokens");
-        _mint(to, amount);
-    }
-
-    function snapshot() public onlyOwner callerIsUser{
+    function snapshot() public onlyOwner {
         _snapshot();
     }
     
