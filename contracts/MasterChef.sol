@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.6.12;
+pragma solidity 0.8.14;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
-import "@openzeppelin/contracts/utils/EnumerableSet.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "./Ownable.sol";
-import "./OpenSwapToken.sol";
-
+import "./WaruToken.sol";
 
 
 // MasterChef is the master of Sushi. He can make Sushi and he is a fair guy.
@@ -48,7 +47,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     }
 
     // The OpenSwap TOKEN!
-    OpenSwapToken public OpenSwap;
+    WaruToken public OpenSwap;
     // Dev address.
     address public devaddr;
     //Dev mint devisor, can only be increased, reducing percentage.
@@ -120,7 +119,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     }
 
     constructor(
-        OpenSwapToken _sushi,
+        WaruToken _sushi,
         address _devaddr,
         uint256 _sushiPerBlock,
         uint256 _sushiPerSecond,
