@@ -121,29 +121,30 @@ contract MasterChef is Ownable, ReentrancyGuard {
     constructor(
         WaruToken _sushi,
         address _devaddr,
-        uint256 _sushiPerBlock,
         uint256 _sushiPerSecond,
         uint256 _startBlock,
         uint256 _bonusEndBlock,
-        uint256 _currentBlocktime,
-        uint256 _lastBlocktime
-    ) public {
+        uint256 _currentBlocktime
+    ) {
         OpenSwap = _sushi;
         devaddr = _devaddr;
         rewardCollector = _devaddr;
-        OpenSwapPerBlock = _sushiPerBlock;
         OpenSwapPerSecond = _sushiPerSecond;
         bonusEndBlock = _bonusEndBlock;
         startBlock = _startBlock;
         currentBlocktime = _currentBlocktime;
-        lastBlocktime = _lastBlocktime;
+
+        OpenSwapPerBlock = 0;
+        lastBlocktime = 0;
+
+        updateBlockIssuanceWithBlocktime();
     }
 
     function poolLength() external view returns (uint256) {
         return poolInfo.length;
     }
     //Changes rewards per block in Case an eventual Change in Harmony BlockTime
-    function updateBlockIssuanceWithBlocktime()
+    function updateBlockIssuanceWithBlocktime() 
         public onlyOwner {
         require(lastBlocktime != currentBlocktime , "OpenSwap : Blocktime hasn't changed");
         OpenSwapPerBlock = currentBlocktime.mul(OpenSwapPerSecond).div(1000);
