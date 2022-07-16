@@ -8,7 +8,8 @@ import "./WaruToken.sol";
 contract WaruClaimWTC is Ownable{
     uint256 public waruRewards = 500000000000000000000;
 
-    mapping(address => bool) public rewardsReceived;
+    mapping(address => bool) public rewardsReceivedOnAddress;
+    mapping(uint256 => bool) public rewardsReceivedForNft;
 
     WaruNFT nft;
     WaruToken token;
@@ -25,10 +26,23 @@ contract WaruClaimWTC is Ownable{
 
     function claimRewards() external callerIsUser {
         require(nft.balanceOf(msg.sender) > 0, "Doesn't own NFT");
-        require(rewardsReceived[msg.sender] == false, "Already claimed.");
+        require(rewardsReceivedOnAddress[msg.sender] == false, "Address already claimed.");
+
+        uint256 counter = 0;
+        
+        for(uint256 i = 1; i <= nft.totalSupply(); i++) {
+            if(nft.ownerOf(i) == msg.sender) {
+                if(rewardsReceivedForNft[i] == false) {
+                    counter++;
+                    rewardsReceivedForNft[i] = true;
+                }
+            }
+        }
+
+        require(counter > 0, "NFT already been used to claim.");
 
         token.transfer(msg.sender, waruRewards);
-        rewardsReceived[msg.sender] = true;
+        rewardsReceivedOnAddress[msg.sender] = true;
     }
 
     // Admin functions
@@ -39,15 +53,17 @@ contract WaruClaimWTC is Ownable{
 
     function resetRewards() external onlyOwner {
         for(uint256 i = 1; i <= nft.totalSupply(); i++) {
+            rewardsReceivedForNft[i] = false;
             address addr = nft.ownerOf(i);
-            rewardsReceived[addr] = false;
+            rewardsReceivedOnAddress[addr] = false;
         }
     }
     
     function stopRewards() external onlyOwner {
         for(uint256 i = 1; i <= nft.totalSupply(); i++) {
+            rewardsReceivedForNft[i] = true;
             address addr = nft.ownerOf(i);
-            rewardsReceived[addr] = true;
+            rewardsReceivedOnAddress[addr] = true;
         }
     }
 
