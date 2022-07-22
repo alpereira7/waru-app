@@ -52,6 +52,7 @@ contract WaruClaimWTC is Ownable{
     }
 
     function resetRewards() external onlyOwner {
+        require(nft.totalSupply()*waruRewards <= token.balanceOf(address(this)), "Not enough tokens in the contract.");
         for(uint256 i = 1; i <= nft.totalSupply(); i++) {
             rewardsReceivedForNft[i] = false;
             address addr = nft.ownerOf(i);
