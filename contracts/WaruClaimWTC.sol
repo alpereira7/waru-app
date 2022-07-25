@@ -6,7 +6,7 @@ import "./WaruNFT.sol";
 import "./WaruToken.sol";
 
 contract WaruClaimWTC is Ownable{
-    uint256 public waruRewards = 500000000000000000000;
+    uint256 public waruRewards = 118000000000000000000;
 
     mapping(address => bool) public rewardsReceivedOnAddress;
     mapping(uint256 => bool) public rewardsReceivedForNft;
