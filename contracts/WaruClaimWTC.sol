@@ -41,7 +41,7 @@ contract WaruClaimWTC is Ownable{
 
         require(counter > 0, "NFT already been used to claim.");
 
-        token.transfer(msg.sender, waruRewards);
+        token.transfer(msg.sender, waruRewards*counter);
         rewardsReceivedOnAddress[msg.sender] = true;
     }
 
